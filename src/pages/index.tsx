@@ -44,7 +44,7 @@ export default function Home() {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Travel Logic Test Plan Generator
+              TraveLogic Test Plan Generator
             </Typography>
           </Box>
 

@@ -30,7 +30,7 @@ export const generateTestPlanXLSX = (
       });
     }
     rows.push({
-      Flow: `title: ${rule.polygon}`,
+      Flow: `${rule.polygon}`,
       Purpose: "",
       ExpectedBehaviour: "",
       VOC: "",
