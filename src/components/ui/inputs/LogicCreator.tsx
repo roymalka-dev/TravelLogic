@@ -48,93 +48,91 @@ const LogicCreator: React.FC = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh", py: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, maxWidth: 800, mx: "auto" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Polygon</InputLabel>
-              <Select
-                value={polygon}
-                onChange={(e) => setPolygon(e.target.value as string)}
-                input={<OutlinedInput label="Polygon" />}
-              >
-                {polygons.map((poly: string) => (
-                  <MenuItem key={poly} value={poly}>
-                    {poly}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Shift Tags</InputLabel>
-              <Select
-                multiple
-                value={shiftTags}
-                onChange={(e) => setShiftTags(e.target.value as string[])}
-                input={<OutlinedInput label="Shift Tags" />}
-                renderValue={(selected) => (selected as string[]).join(", ")}
-              >
-                {tags.map((tag: string) => (
-                  <MenuItem key={tag} value={tag}>
-                    <Checkbox checked={shiftTags.indexOf(tag) > -1} />
-                    <ListItemText primary={tag} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Allowed DO</InputLabel>
-              <Select
-                multiple
-                value={allowedDropOffs}
-                onChange={(e) => setAllowedDropOffs(e.target.value as string[])}
-                input={<OutlinedInput label="Allowed DO" />}
-                renderValue={(selected) => (selected as string[]).join(", ")}
-              >
-                {polygons.map((poly: string) => (
-                  <MenuItem key={poly} value={poly}>
-                    <Checkbox checked={allowedDropOffs.indexOf(poly) > -1} />
-                    <ListItemText primary={poly} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleAddRule}>
-              Add Rule
-            </Button>
-          </Grid>
-        </Grid>
-        <List>
-          {rules.map((rule: IRule, index: number) => (
-            <ListItem
-              key={index}
-              secondaryAction={
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleDeleteRule(index)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              }
+    <Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Polygon</InputLabel>
+            <Select
+              value={polygon}
+              onChange={(e) => setPolygon(e.target.value as string)}
+              input={<OutlinedInput label="Polygon" />}
             >
-              <ListItemText
-                primary={`Polygon: ${rule.polygon}`}
-                secondary={`DO: ${rule.allowedDropOffs.join(
-                  ", "
-                )} | Tags: ${rule.tags.join(", ")}`}
-              />
-            </ListItem>
-          ))}
-        </List>
-      </Paper>
+              {polygons.map((poly: string) => (
+                <MenuItem key={poly} value={poly}>
+                  {poly}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Shift Tags</InputLabel>
+            <Select
+              multiple
+              value={shiftTags}
+              onChange={(e) => setShiftTags(e.target.value as string[])}
+              input={<OutlinedInput label="Shift Tags" />}
+              renderValue={(selected) => (selected as string[]).join(", ")}
+            >
+              {tags?.map((tag: string) => (
+                <MenuItem key={tag} value={tag}>
+                  <Checkbox checked={shiftTags.indexOf(tag) > -1} />
+                  <ListItemText primary={tag} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Allowed DO</InputLabel>
+            <Select
+              multiple
+              value={allowedDropOffs}
+              onChange={(e) => setAllowedDropOffs(e.target.value as string[])}
+              input={<OutlinedInput label="Allowed DO" />}
+              renderValue={(selected) => (selected as string[]).join(", ")}
+            >
+              {polygons.map((poly: string) => (
+                <MenuItem key={poly} value={poly}>
+                  <Checkbox checked={allowedDropOffs.indexOf(poly) > -1} />
+                  <ListItemText primary={poly} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" onClick={handleAddRule}>
+            Add Rule
+          </Button>
+        </Grid>
+      </Grid>
+      <List>
+        {rules.map((rule: IRule, index: number) => (
+          <ListItem
+            key={index}
+            secondaryAction={
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => handleDeleteRule(index)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            }
+          >
+            <ListItemText
+              primary={`Polygon: ${rule.polygon}`}
+              secondary={`DO: ${rule.allowedDropOffs.join(
+                ", "
+              )} | Tags: ${rule.tags.join(", ")}`}
+            />
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 };

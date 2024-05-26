@@ -13,7 +13,7 @@ interface TestPlanRow {
 export const generateTestPlanXLSX = (
   rules: IRule[],
   allPolygons: string[],
-  allTags: string[]
+  allTags: string[] = []
 ) => {
   const rows: TestPlanRow[] = [];
 
@@ -123,8 +123,6 @@ export const generateTestPlanXLSX = (
         Android: "",
       });
     });
-
-    // Insert an empty row between the rules
   });
 
   // Generate workbook and worksheet

@@ -53,6 +53,7 @@ export const FormStepper = <T extends RequestType>({
   const handleResetForm = async () => {
     await dispatch(resetForm());
     setActiveStep(0);
+    window.location.reload();
   };
 
   return (

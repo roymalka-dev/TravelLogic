@@ -10,23 +10,18 @@ import { PersistGate } from "redux-persist/integration/react";
 
 export default function Home() {
   const submitRequest = async (request: RequestType) => {
-    console.log(request);
-
     // Extract the necessary data from the form submission
     const rules = request.rules as IRule[];
     const polygons = request.polygons as string[];
     const tags = request.tags as string[];
 
     // Ensure types are correct before calling the generate function
-    if (
-      Array.isArray(rules) &&
-      Array.isArray(polygons) &&
-      Array.isArray(tags)
-    ) {
+    if (Array.isArray(rules) && Array.isArray(polygons)) {
       // Generate the XLSX file
       generateTestPlanXLSX(rules, polygons, tags);
     } else {
       console.error("Invalid form data:", { rules, polygons, tags });
+      alert("Invalid form data. Please try again.");
     }
   };
 

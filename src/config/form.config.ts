@@ -10,7 +10,7 @@ export const formTabs: TabConfig<RequestType>[] = [
         label: "Enter Polygon",
         type: "multi-input",
         initialValue: [""],
-        validation: yup.array().of(yup.string()),
+        validation: yup.array().min(1).of(yup.string().required()),
         information: "Enter Polygon name",
       },
     ],
