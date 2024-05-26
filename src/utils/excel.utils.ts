@@ -90,28 +90,30 @@ export const generateTestPlanXLSX = (
         iOS: "",
         Android: "",
       });
-      rows.push({
-        Flow: "Check if ride is assigned properly",
-        Purpose: "Rules Logic",
-        ExpectedBehaviour: `Ride is assigned to ${rule.tags.join(", ")}`,
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
+      allTags.length > 1 &&
+        rows.push({
+          Flow: "Check if ride is assigned properly",
+          Purpose: "Rules Logic",
+          ExpectedBehaviour: `Ride is assigned to ${rule.tags.join(", ")}`,
+          VOC: "",
+          iOS: "",
+          Android: "",
+        });
 
       // Reassign Shift Tags Rows
-      allTags
-        .filter((tag) => !rule.tags.includes(tag))
-        .forEach((tag) => {
-          rows.push({
-            Flow: `Try reassign to ${tag}`,
-            Purpose: "Rules Logic",
-            ExpectedBehaviour: "Can't assign ride",
-            VOC: "",
-            iOS: "",
-            Android: "",
+      allTags.length > 1 &&
+        allTags
+          .filter((tag) => !rule.tags.includes(tag))
+          .forEach((tag) => {
+            rows.push({
+              Flow: `Try reassign to ${tag}`,
+              Purpose: "Rules Logic",
+              ExpectedBehaviour: "Can't assign ride",
+              VOC: "",
+              iOS: "",
+              Android: "",
+            });
           });
-        });
 
       // Complete a Ride Row
       rows.push({
