@@ -3,10 +3,10 @@ import { formTabs } from "@/config/form.config";
 import { store, persistor } from "@/store/store";
 import { RequestType } from "@/types/form.types";
 import { IRule } from "@/types/rule.types";
-import { generateTestPlanXLSX } from "@/utils/excel.utils";
 import { Box, Paper, Typography } from "@mui/material";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { generateTestPlanXLSX } from "@/utils/generateTestPlanXLSX";
 
 export default function Home() {
   const submitRequest = async (request: RequestType) => {

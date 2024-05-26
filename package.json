@@ -16,6 +16,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@reduxjs/toolkit": "^2.2.5",
     "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.4.6",
     "next": "14.2.3",
     "react": "^18",
@@ -24,9 +25,11 @@
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.11",
     "xlsx": "^0.18.5",
+    "xlsx-populate": "^1.21.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

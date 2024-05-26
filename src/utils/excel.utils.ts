@@ -1,139 +1,36 @@
-import * as XLSX from "xlsx";
-import { IRule } from "@/types/rule.types";
+import { TestPlanRow } from "@/types/excel.types";
+import ExcelJS from "exceljs";
 
-interface TestPlanRow {
-  Flow: string;
-  Purpose: string;
-  ExpectedBehaviour: string;
-  VOC: string;
-  iOS: string;
-  Android: string;
-}
-
-export const generateTestPlanXLSX = (
-  rules: IRule[],
-  allPolygons: string[],
-  allTags: string[] = []
+export const createRow = (
+  worksheet: ExcelJS.Worksheet,
+  data: Partial<TestPlanRow>,
+  index: number | null,
+  mergeCells: boolean = false
 ) => {
-  const rows: TestPlanRow[] = [];
-
-  //set first row title
-  rules.forEach((rule, ruleIndex) => {
-    if (ruleIndex > 0) {
-      rows.push({
-        Flow: "",
-        Purpose: "",
-        ExpectedBehaviour: "",
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
-    }
-    rows.push({
-      Flow: `${rule.polygon}`,
-      Purpose: "",
-      ExpectedBehaviour: "",
-      VOC: "",
-      iOS: "",
-      Android: "",
-    });
-    // PU Available Rows
-    rule.allowedDropOffs.forEach((dropOff, dropOffIndex) => {
-      rows.push({
-        Flow: `Set PU at ${rule.polygon}`,
-        Purpose: "Polygon Blocker",
-        ExpectedBehaviour: `DO is available at ${dropOff}`,
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
-    });
-
-    // PU Not Available Rows
-    allPolygons
-      .filter((p) => !rule.allowedDropOffs.includes(p))
-      .forEach((polygon, index) => {
-        rows.push({
-          Flow: `Set PU at ${rule.polygon}`,
-          Purpose: "Polygon Blocker",
-          ExpectedBehaviour: `DO is NOT available at ${polygon}`,
-          VOC: "",
-          iOS: "",
-          Android: "",
-        });
-      });
-
-    // Set DO and Book a Ride Rows
-    rule.allowedDropOffs.forEach((dropOff, index) => {
-      index > 0 &&
-        rows.push({
-          Flow: `Set PU at ${rule.polygon}`,
-          Purpose: "Polygon Blocker",
-          ExpectedBehaviour: "PU set successfully",
-          VOC: "",
-          iOS: "",
-          Android: "",
-        });
-      rows.push({
-        Flow: `Set DO at ${dropOff}`,
-        Purpose: "Polygon Blocker",
-        ExpectedBehaviour: "DO set successfully",
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
-      rows.push({
-        Flow: "Book a ride",
-        Purpose: "Rules Logic",
-        ExpectedBehaviour: "Ride booked successfully",
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
-      allTags.length > 1 &&
-        rows.push({
-          Flow: "Check if ride is assigned properly",
-          Purpose: "Rules Logic",
-          ExpectedBehaviour: `Ride is assigned to ${rule.tags.join(", ")}`,
-          VOC: "",
-          iOS: "",
-          Android: "",
-        });
-
-      // Reassign Shift Tags Rows
-      allTags.length > 1 &&
-        allTags
-          .filter((tag) => !rule.tags.includes(tag))
-          .forEach((tag) => {
-            rows.push({
-              Flow: `Try reassign to ${tag}`,
-              Purpose: "Rules Logic",
-              ExpectedBehaviour: "Can't assign ride",
-              VOC: "",
-              iOS: "",
-              Android: "",
-            });
-          });
-
-      // Complete a Ride Row
-      rows.push({
-        Flow: "Complete a ride",
-        Purpose: "",
-        ExpectedBehaviour: "Ride completed successfully",
-        VOC: "",
-        iOS: "",
-        Android: "",
-      });
-    });
+  const row = worksheet.addRow({
+    index: index || "",
+    flow: data.Flow || "",
+    purpose: data.Purpose || "",
+    expectedBehaviour: data.ExpectedBehaviour || "",
+    voc: "",
+    ios: "",
+    android: "",
   });
 
-  // Generate workbook and worksheet
-  const worksheet = XLSX.utils.json_to_sheet(rows, {
-    header: ["Flow", "Purpose", "ExpectedBehaviour", "VOC", "iOS", "Android"],
+  row.eachCell((cell) => {
+    cell.alignment = { horizontal: "center", vertical: "middle" };
   });
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Test Plan");
 
-  // Write to file
-  XLSX.writeFile(workbook, "Test_Plan.xlsx");
+  if (mergeCells) {
+    worksheet.mergeCells(`B${row.number}:G${row.number}`);
+    row.getCell(2).alignment = { horizontal: "center", vertical: "middle" };
+    row.getCell(2).font = { bold: true };
+    row.getCell(2).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "D3D3D3" },
+    };
+  }
+
+  return row;
 };
