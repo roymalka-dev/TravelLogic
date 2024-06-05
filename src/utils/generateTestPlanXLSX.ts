@@ -38,6 +38,21 @@ export const generateTestPlanXLSX = async (
 
   let index = 0;
 
+  // Add shift creation flow
+  createRow(worksheet, { Flow: "Pre test" }, null, true);
+  allTags.forEach((tag) => {
+    createRow(
+      worksheet,
+      {
+        Index: index++,
+        Flow: `Create a shift with ${tag}`,
+        Purpose: "",
+        ExpectedBehaviour: "Shift created successfully",
+      },
+      index
+    );
+  });
+
   rules.forEach((rule) => {
     // Add title row and merge cells
     createRow(worksheet, { Flow: rule.polygon }, null, true);
