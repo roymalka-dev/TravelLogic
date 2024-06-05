@@ -45,7 +45,7 @@ export const generateTestPlanXLSX = async (
       worksheet,
       {
         Index: index++,
-        Flow: `Create a shift with ${tag}`,
+        Flow: `Create a shift with ${tag} tag`,
         Purpose: "",
         ExpectedBehaviour: "Shift created successfully",
       },
